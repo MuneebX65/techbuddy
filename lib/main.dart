@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:techbuddy/core/app_env.dart';
 import 'package:techbuddy/core/constants.dart';
-import 'package:techbuddy/screens/drawer_screen.dart';
+import 'package:techbuddy/core/drawer_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
