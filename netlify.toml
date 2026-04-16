@@ -1,5 +1,10 @@
+[[plugins]]
+  package = "netlify-plugin-flutter"
+
 [build]
-  command = "set -eux; export FLUTTER_ROOT=$HOME/flutter; if [ ! -d $FLUTTER_ROOT ]; then git clone https://github.com/flutter/flutter.git --depth 1 -b stable $FLUTTER_ROOT; fi; export PATH=$FLUTTER_ROOT/bin:$PATH; flutter --version; flutter config --enable-web; flutter pub get; flutter build web --release --no-wasm-dry-run"
+  # We use 'touch .env' to make sure the app finds the file, 
+  # even if it's empty (we'll use Netlify UI for the real keys)
+  command = "touch .env && flutter build web --release"
   publish = "build/web"
 
 [[redirects]]
