@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants.dart';
-import '../service_helper.dart';
 import 'detail_tag.dart';
+import 'service_helper.dart';
 
 Future<void> showLessonCompletionDialog({
   required BuildContext context,
@@ -11,20 +11,37 @@ Future<void> showLessonCompletionDialog({
   return showDialog<void>(
     context: context,
     builder: (_) => AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radius),
-      ),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      contentPadding: const EdgeInsets.fromLTRB(22, 22, 22, 20),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('🎉', style: TextStyle(fontSize: 60)),
-          const SizedBox(height: 16),
+          Container(
+            height: 96,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFECFDF5), Color(0xFFD1FAE5)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(26),
+            ),
+            child: const Center(
+              child: Text('🎉', style: TextStyle(fontSize: 54)),
+            ),
+          ),
+          const SizedBox(height: 18),
           const Text(
-            'Great job!',
+            'Lesson complete',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               color: AppColors.textDark,
+              height: 1.1,
             ),
           ),
           const SizedBox(height: 8),
@@ -37,7 +54,31 @@ Future<void> showLessonCompletionDialog({
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.auto_awesome, size: 18, color: AppColors.primary),
+                SizedBox(width: 8),
+                Text(
+                  'AI learning checkpoint saved',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textDark,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
             height: 52,
@@ -81,22 +122,54 @@ class LessonProgressHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFECFDF5), Color(0xFFD1FAE5)],
+                ),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: const Color(0xFF86EFAC)),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.auto_awesome, size: 14, color: AppColors.primary),
+                  SizedBox(width: 6),
+                  Text(
+                    'AI guided flow',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            Text(
+              '${currentStep + 1}/$totalSteps',
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textMuted,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
         ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(999),
           child: LinearProgressIndicator(
             value: progress,
-            minHeight: 10,
-            backgroundColor: Colors.grey.withOpacity(0.2),
+            minHeight: 12,
+            backgroundColor: const Color(0xFFE5E7EB),
             valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            '${currentStep + 1} of $totalSteps steps',
-            style: const TextStyle(fontSize: 13, color: AppColors.textMuted),
           ),
         ),
       ],
@@ -124,77 +197,158 @@ class LessonStepContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppSizes.radius),
-        border: Border.all(color: Colors.grey.withOpacity(0.2)),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFF8FAFC)],
+        ),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+        boxShadow: [
+          BoxShadow(
+            color: lessonColor.withOpacity(0.12),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: 90,
-              height: 90,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            right: -18,
+            top: -18,
+            child: Container(
+              width: 88,
+              height: 88,
               decoration: BoxDecoration(
-                color: lessonColor,
                 shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(lessonIcon, style: const TextStyle(fontSize: 44)),
+                color: lessonColor.withOpacity(0.12),
               ),
             ),
-            const SizedBox(height: 28),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          ),
+          Positioned(
+            left: -22,
+            bottom: 120,
+            child: Container(
+              width: 72,
+              height: 72,
               decoration: BoxDecoration(
-                color: AppColors.successBg,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                'Step ${currentStep + 1}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.successText,
-                ),
+                shape: BoxShape.circle,
+                color: AppColors.accent.withOpacity(0.08),
               ),
             ),
-            const SizedBox(height: 14),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              alignment: WrapAlignment.center,
+          ),
+          SingleChildScrollView(
+            child: Column(
               children: [
-                DetailTag(
-                  icon: Icons.timer_outlined,
-                  label: LessonDetailServiceHelper.stepDuration(currentStep),
+                Container(
+                  width: 96,
+                  height: 96,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [lessonColor, AppColors.secondary],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: lessonColor.withOpacity(0.22),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      lessonIcon,
+                      style: const TextStyle(fontSize: 46),
+                    ),
+                  ),
                 ),
-                DetailTag(
-                  icon: Icons.category_outlined,
-                  label: LessonDetailServiceHelper.stepCategory(stepText),
+                const SizedBox(height: 18),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFE8F5EE), Color(0xFFDBF7E8)],
+                    ),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    'Step ${currentStep + 1}',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.successText,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
                 ),
-                DetailTag(
-                  icon: Icons.flag_outlined,
-                  label: '${currentStep + 1}/$totalSteps',
+                const SizedBox(height: 14),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    DetailTag(
+                      icon: Icons.timer_outlined,
+                      label: LessonDetailServiceHelper.stepDuration(
+                        currentStep,
+                      ),
+                    ),
+                    DetailTag(
+                      icon: Icons.category_outlined,
+                      label: LessonDetailServiceHelper.stepCategory(stepText),
+                    ),
+                    const DetailTag(
+                      icon: Icons.auto_awesome_outlined,
+                      label: 'AI curated',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFAFCFF),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: Text(
+                    stepText,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textDark,
+                      height: 1.6,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                LessonTipBox(
+                  tipText: LessonDetailServiceHelper.stepTip(stepText),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Text(
-              stepText,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark,
-                height: 1.6,
-              ),
-            ),
-            const SizedBox(height: 18),
-            LessonTipBox(tipText: LessonDetailServiceHelper.stepTip(stepText)),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -209,18 +363,27 @@ class LessonTipBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF0F9FF),
-        borderRadius: BorderRadius.circular(14),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFF0F9FF), Color(0xFFE0F2FE)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFBAE6FD)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 1),
-            child: Icon(
+          Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.85),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
               Icons.lightbulb_outline,
               size: 18,
               color: Color(0xFF0369A1),
@@ -231,10 +394,10 @@ class LessonTipBox extends StatelessWidget {
             child: Text(
               tipText,
               style: const TextStyle(
-                fontSize: 13,
-                height: 1.45,
+                fontSize: 13.5,
+                height: 1.5,
                 color: Color(0xFF0C4A6E),
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

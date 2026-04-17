@@ -1,11 +1,9 @@
-[[plugins]]
-  package = "netlify-plugin-flutter"
-
 [build]
-  # We use 'touch .env' to make sure the app finds the file, 
-  # even if it's empty (we'll use Netlify UI for the real keys)
   command = "touch .env && flutter build web --release"
   publish = "build/web"
+
+[[plugins]]
+  package = "netlify-plugin-flutter"
 
 [[redirects]]
   from = "/*"

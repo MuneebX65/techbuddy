@@ -180,8 +180,9 @@ Rules:
         surfaceTintColor: AppColors.cardBg,
         shadowColor: AppColors.textDark.withOpacity(0.14),
         elevation: 8,
+        centerTitle: true,
         title: const Text(
-          'Scam Checker 🛡️',
+          'Scam Checker',
           style: TextStyle(
             color: AppColors.primary,
             fontSize: 22,

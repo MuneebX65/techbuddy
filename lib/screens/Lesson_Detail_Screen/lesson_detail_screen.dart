@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants.dart';
-import 'service_helper.dart';
+import 'widgets/service_helper.dart';
 import 'widgets/cards_ui.dart';
 
 class LessonDetailScreen extends StatefulWidget {
@@ -59,7 +59,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     final lessonIcon = (lesson['icon'] as String?) ?? '📘';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.cardBg,
       appBar: AppBar(
         backgroundColor: AppColors.cardBg,
         surfaceTintColor: AppColors.cardBg,
