@@ -24,6 +24,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
       LessonGenerationService();
   bool _isLoadingDailyChips = true;
   bool _isGeneratingLesson = false;
+  int _promptResetNonce = 0;
   List<String> _dailyTopics = const <String>[];
 
   @override
@@ -72,6 +73,9 @@ class _LessonsScreenState extends State<LessonsScreen> {
   }
 
   Future<void> _handleCreateCustomLessonFromPrompt(String topic) {
+    setState(() {
+      _promptResetNonce++;
+    });
     final stableId = LessonModel.createCustomLessonFromPrompt(topic);
     return _handleCreateLessonFromTopic(topic, stableId);
   }
@@ -301,7 +305,14 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                 lessonId: lessonId,
                               ),
                             ),
-                          );
+                          ).then((_) {
+                            if (!mounted) {
+                              return;
+                            }
+                            setState(() {
+                              _promptResetNonce++;
+                            });
+                          });
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
@@ -490,6 +501,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 child: Center(
                   child: MainTexField(
                     onPromptSubmitted: _handleCreateCustomLessonFromPrompt,
+                    resetNonce: _promptResetNonce,
                   ),
                 ),
               ),

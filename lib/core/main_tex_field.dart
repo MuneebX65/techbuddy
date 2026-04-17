@@ -10,10 +10,12 @@ class MainTexField extends StatefulWidget {
     super.key,
     required this.onPromptSubmitted,
     this.horizontalInset = 20,
+    this.resetNonce = 0,
   });
 
   final Future<void> Function(String prompt) onPromptSubmitted;
   final double horizontalInset;
+  final int resetNonce;
 
   @override
   State<MainTexField> createState() => _MainTexFieldState();
@@ -51,6 +53,14 @@ class _MainTexFieldState extends State<MainTexField> {
     _promptFocusNode.dispose();
     _promptController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant MainTexField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.resetNonce != widget.resetNonce) {
+      _promptController.clear();
+    }
   }
 
   Future<void> _initSpeech() async {

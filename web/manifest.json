@@ -1,11 +1,11 @@
 {
-    "name": "techbuddy",
-    "short_name": "techbuddy",
+    "name": "TechBuddy",
+    "short_name": "TechBuddy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "TechBuddy helps users with safe, practical tech guidance.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
