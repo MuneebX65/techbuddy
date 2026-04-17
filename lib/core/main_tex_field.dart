@@ -284,13 +284,13 @@ class _MainTexFieldState extends State<MainTexField> {
                         color: !_speechSupported
                             ? AppColors.background
                             : _isListening
-                            ? Colors.redAccent
+                            ? AppColors.primary.withOpacity(0.14)
                             : AppColors.background,
                         border: Border.all(
                           color: !_speechSupported
                               ? AppColors.textMuted.withOpacity(0.2)
                               : _isListening
-                              ? Colors.redAccent.withOpacity(0.25)
+                              ? AppColors.primary.withOpacity(0.45)
                               : AppColors.primary.withOpacity(0.16),
                         ),
                       ),
@@ -298,7 +298,7 @@ class _MainTexFieldState extends State<MainTexField> {
                         _isListening ? Icons.mic : Icons.mic_none_rounded,
                         color: _speechSupported
                             ? (_isListening
-                                  ? Colors.redAccent
+                                  ? AppColors.primary
                                   : AppColors.primary)
                             : AppColors.textMuted,
                         size: 16,

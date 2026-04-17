@@ -7,6 +7,7 @@ class AppPreferences {
   static const String userAgeKey = 'user_age';
   static const String isFirstTimeKey = 'is_first_time';
   static const String chatCountKey = 'chat_count';
+  static const String selectedPageIndexKey = 'selected_page_index';
 
   static final ValueNotifier<String?> userNameNotifier = ValueNotifier<String?>(
     null,
@@ -54,6 +55,20 @@ class AppPreferences {
     final updated = current + 1;
     await prefs.setInt(chatCountKey, updated);
     return updated;
+  }
+
+  static Future<void> saveSelectedPageIndex(int index) async {
+    final prefs = await _prefs();
+    await prefs.setInt(selectedPageIndexKey, index);
+  }
+
+  static Future<int> getSelectedPageIndex() async {
+    final prefs = await _prefs();
+    final index = prefs.getInt(selectedPageIndexKey) ?? 0;
+    if (index < 0) {
+      return 0;
+    }
+    return index;
   }
 
   static Future<List<int>> getCompletedLessons() async {

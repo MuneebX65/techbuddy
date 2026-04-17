@@ -65,6 +65,8 @@ class _DrawerScreenState extends State<DrawerScreen>
         screen: ScamScreen(onBackRequested: _goToHome),
       ),
     ];
+
+    _restoreSelectedPage();
   }
 
   @override
@@ -76,6 +78,17 @@ class _DrawerScreenState extends State<DrawerScreen>
   void _goToHome() {
     setState(() {
       _selectedIndex = 0;
+    });
+    AppPreferences.saveSelectedPageIndex(0);
+  }
+
+  Future<void> _restoreSelectedPage() async {
+    final savedIndex = await AppPreferences.getSelectedPageIndex();
+    if (!mounted || savedIndex >= _navItems.length) {
+      return;
+    }
+    setState(() {
+      _selectedIndex = savedIndex;
     });
   }
 
@@ -564,6 +577,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                               setState(() {
                                 _selectedIndex = index;
                               });
+                              AppPreferences.saveSelectedPageIndex(index);
                             },
                           ),
                         ),
