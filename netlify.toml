@@ -1,5 +1,5 @@
 [build]
-  command = "mkdir -p assets/env && touch assets/env/app.env && flutter build web --release"
+  command = "flutter build web --release --dart-define=GROQ_API_KEY=$GROQ_API_KEY --dart-define=GROQ_MODEL=${GROQ_MODEL:-llama-3.1-8b-instant}"
   publish = "build/web"
 
 [[plugins]]
