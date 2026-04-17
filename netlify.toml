@@ -1,5 +1,5 @@
 [build]
-  command = "touch .env && flutter build web --release"
+  command = "mkdir -p assets/env && touch assets/env/app.env && flutter build web --release"
   publish = "build/web"
 
 [[plugins]]
