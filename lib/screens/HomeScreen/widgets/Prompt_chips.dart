@@ -137,7 +137,7 @@ Rules:
             borderRadius: BorderRadius.circular(16),
             onTap: () => widget.onChipTap?.call(label),
             child: Ink(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -147,24 +147,28 @@ Rules:
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: AppColors.primary.withOpacity(0.16)),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.auto_awesome_rounded,
-                    size: 16,
-                    color: AppColors.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: AppColors.textDark,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 54),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.auto_awesome_rounded,
+                      size: 19,
+                      color: AppColors.primary,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 10),
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        color: AppColors.textDark,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
