@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:techbuddy/services/web_session_storage_bridge.dart';
 
 class AppPreferences {
   static const String lessonsCompletedKey = 'lessons_completed';
@@ -58,11 +59,30 @@ class AppPreferences {
   }
 
   static Future<void> saveSelectedPageIndex(int index) async {
+    if (kIsWeb) {
+      writeSessionValue(selectedPageIndexKey, index.toString());
+      final prefs = await _prefs();
+      await prefs.remove(selectedPageIndexKey);
+      return;
+    }
+
     final prefs = await _prefs();
     await prefs.setInt(selectedPageIndexKey, index);
   }
 
   static Future<int> getSelectedPageIndex() async {
+    if (kIsWeb) {
+      final prefs = await _prefs();
+      await prefs.remove(selectedPageIndexKey);
+
+      final rawValue = readSessionValue(selectedPageIndexKey);
+      final index = int.tryParse(rawValue ?? '') ?? 0;
+      if (index < 0) {
+        return 0;
+      }
+      return index;
+    }
+
     final prefs = await _prefs();
     final index = prefs.getInt(selectedPageIndexKey) ?? 0;
     if (index < 0) {
