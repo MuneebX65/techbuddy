@@ -113,67 +113,84 @@ Rules:
     ];
 
     if (_isLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: SizedBox(
-          height: 24,
-          width: 24,
-          child: CircularProgressIndicator(strokeWidth: 2.2),
-        ),
-      );
+      return const SizedBox.shrink();
     }
 
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: List<Widget>.generate(chips.length, (index) {
-        final label = chips[index];
-        final gradient = palettes[index % palettes.length];
-        return Material(
-          elevation: 4,
-          shadowColor: AppColors.primary.withOpacity(0.14),
-          borderRadius: BorderRadius.circular(16),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(16),
-            onTap: () => widget.onChipTap?.call(label),
-            child: Ink(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradient,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.primary.withOpacity(0.16)),
-              ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 54),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.auto_awesome_rounded,
-                      size: 19,
-                      color: AppColors.primary,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: AppColors.textDark,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const spacing = 10.0;
+        final chipWidth = (constraints.maxWidth - spacing) / 2;
+
+        return Align(
+          alignment: Alignment.centerRight,
+          child: Wrap(
+            alignment: WrapAlignment.end,
+            runAlignment: WrapAlignment.end,
+            spacing: spacing,
+            runSpacing: spacing,
+            children: List<Widget>.generate(chips.length, (index) {
+              final label = chips[index];
+              final gradient = palettes[index % palettes.length];
+              return SizedBox(
+                width: chipWidth,
+                child: Material(
+                  elevation: 4,
+                  shadowColor: AppColors.primary.withOpacity(0.14),
+                  borderRadius: BorderRadius.circular(16),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () => widget.onChipTap?.call(label),
+                    child: Ink(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: gradient,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: AppColors.primary.withOpacity(0.16),
+                        ),
+                      ),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(minHeight: 56),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome_rounded,
+                              size: 20,
+                              color: AppColors.primary,
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                label,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: AppColors.textDark,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ),
         );
-      }),
+      },
     );
   }
 }

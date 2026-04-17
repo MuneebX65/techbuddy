@@ -13,6 +13,12 @@ class ChatBubble extends StatelessWidget {
         ? const Color(0xFF2B6BE6)
         : const Color(0xFF192133);
     final textColor = Colors.white;
+    final textStyle = TextStyle(
+      color: textColor,
+      height: 1.5,
+      fontSize: isUser ? 16 : 18,
+      fontWeight: isUser ? FontWeight.w500 : FontWeight.w600,
+    );
 
     return Align(
       alignment: alignment,
@@ -36,10 +42,7 @@ class ChatBubble extends StatelessWidget {
             ),
           ],
         ),
-        child: Text(
-          text,
-          style: TextStyle(color: textColor, height: 1.45, fontSize: 16),
-        ),
+        child: Text(text, style: textStyle),
       ),
     );
   }

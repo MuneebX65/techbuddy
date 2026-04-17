@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     _SmartAction(
       icon: Icons.text_snippet_outlined,
-      title: 'Message Polisher',
+      title: 'Help me write a message',
       prompt: 'Help me rewrite a message in clear and polite English.',
     ),
     _SmartAction(
@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(width: 10),
               Text(
-                'AI Power Moves',
+                'Quick Actions',
                 style: TextStyle(
                   fontSize: 23,
                   fontWeight: FontWeight.w800,
@@ -237,39 +237,57 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hi $_userName',
-                        style: const TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
+              child: ScrollConfiguration(
+                behavior: ScrollConfiguration.of(
+                  context,
+                ).copyWith(scrollbars: false),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Hi $_userName',
+                            style: const TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Where should we start?',
-                        style: TextStyle(
-                          fontSize: 46,
-                          height: 1.05,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textDark,
+                        const SizedBox(height: 8),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Where should we start?',
+                            style: TextStyle(
+                              fontSize: 46,
+                              height: 1.05,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textDark,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 22),
-                      MainTexField(
-                        onPromptSubmitted: _openChatFromPrompt,
-                        horizontalInset: 0,
-                      ),
-                      const SizedBox(height: 12),
-                      PromptChips(onChipTap: _openChatFromPrompt),
-                      _buildSmartActionsPanel(),
-                    ],
+                        const SizedBox(height: 22),
+                        SizedBox(
+                          width: double.infinity,
+                          child: MainTexField(
+                            onPromptSubmitted: _openChatFromPrompt,
+                            horizontalInset: 0,
+                            maxWidth: 720,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: PromptChips(onChipTap: _openChatFromPrompt),
+                        ),
+                        _buildSmartActionsPanel(),
+                      ],
+                    ),
                   ),
                 ),
               ),

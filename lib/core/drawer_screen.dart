@@ -496,7 +496,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                   Icon(
                     Icons.smart_toy_outlined,
                     color: AppColors.primary,
-                    size: 32,
+                    size: 36,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -507,7 +507,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                         Text(
                           AppStrings.appName,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: Colors.black87,
                           ),
@@ -515,7 +515,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                         SizedBox(height: 2),
                         Text(
                           AppStrings.tagline,
-                          style: TextStyle(fontSize: 10, color: Colors.grey),
+                          style: TextStyle(fontSize: 11, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -534,6 +534,56 @@ class _DrawerScreenState extends State<DrawerScreen>
                 const SizedBox(height: 4),
               ],
             ),
+    );
+  }
+
+  Widget _sidebarFooter({required bool isExpanded}) {
+    if (!isExpanded) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: AppColors.successBg,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.primary.withOpacity(0.16)),
+        ),
+        child: const Icon(
+          Icons.support_agent_outlined,
+          color: AppColors.primary,
+          size: 22,
+        ),
+      );
+    }
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColors.successBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.primary.withOpacity(0.16)),
+      ),
+      child: const Row(
+        children: [
+          Icon(
+            Icons.support_agent_outlined,
+            color: AppColors.primary,
+            size: 20,
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Need help? Open Chat for quick support.',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textDark,
+                height: 1.25,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -559,29 +609,33 @@ class _DrawerScreenState extends State<DrawerScreen>
                     ),
                   ),
                   child: SafeArea(
-                    child: ListView(
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 12, bottom: 12),
-                      children: [
-                        _drawerHeader(isExpanded: isExpanded),
-                        const SizedBox(height: 8),
-                        _sidebarToggleItem(isExpanded: isExpanded),
-                        const SizedBox(height: 4),
-                        ...List.generate(
-                          _navItems.length,
-                          (index) => _sidebarItem(
-                            icon: _navItems[index].icon,
-                            label: _navItems[index].label,
-                            index: index,
-                            isExpanded: isExpanded,
-                            onTap: () {
-                              setState(() {
-                                _selectedIndex = index;
-                              });
-                              AppPreferences.saveSelectedPageIndex(index);
-                            },
+                      child: Column(
+                        children: [
+                          _drawerHeader(isExpanded: isExpanded),
+                          const SizedBox(height: 8),
+                          _sidebarToggleItem(isExpanded: isExpanded),
+                          const SizedBox(height: 4),
+                          ...List.generate(
+                            _navItems.length,
+                            (index) => _sidebarItem(
+                              icon: _navItems[index].icon,
+                              label: _navItems[index].label,
+                              index: index,
+                              isExpanded: isExpanded,
+                              onTap: () {
+                                setState(() {
+                                  _selectedIndex = index;
+                                });
+                                AppPreferences.saveSelectedPageIndex(index);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                          const Spacer(),
+                          _sidebarFooter(isExpanded: isExpanded),
+                        ],
+                      ),
                     ),
                   ),
                 ),

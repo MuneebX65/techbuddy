@@ -10,11 +10,13 @@ class MainTexField extends StatefulWidget {
     super.key,
     required this.onPromptSubmitted,
     this.horizontalInset = 20,
+    this.maxWidth = 600,
     this.resetNonce = 0,
   });
 
   final Future<void> Function(String prompt) onPromptSubmitted;
   final double horizontalInset;
+  final double maxWidth;
   final int resetNonce;
 
   @override
@@ -233,7 +235,7 @@ class _MainTexFieldState extends State<MainTexField> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: widget.horizontalInset),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
+        constraints: BoxConstraints(maxWidth: widget.maxWidth),
         child: Container(
           constraints: BoxConstraints(minHeight: height * 0.14),
           padding: const EdgeInsets.fromLTRB(14, 15, 14, 10),
